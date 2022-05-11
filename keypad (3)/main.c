@@ -1,12 +1,12 @@
 /*
-Demonstraèní aplikace pro jednoduché ètení stavu maticové klávesnice
+DemonstraÃ¨nÃ­ aplikace pro jednoduchÃ© Ã¨tenÃ­ stavu maticovÃ© klÃ¡vesnice
 
 */
 #include "stm8s.h"
 #include "milis.h"
 #include "stm8_hd44780.h"
 #include "stdio.h"
-#include "keypad.h" // tady máme "knihovnu" pro skenování stavu klávesnice
+#include "keypad.h" // tady mÃ¡me "knihovnu" pro skenovÃ¡nÃ­ stavu klÃ¡vesnice
 
 void process_keypad(void);
 
@@ -14,42 +14,42 @@ char text[24];
 
 
 void main(void){
-CLK_HSIPrescalerConfig(CLK_PRESCALER_HSIDIV1); // 16MHz z interního RC oscilátoru
+CLK_HSIPrescalerConfig(CLK_PRESCALER_HSIDIV1); // 16MHz z internÃ­ho RC oscilÃ¡toru
 init_milis(); // milis kvuli delay_ms()
 lcd_init();		// inicializace displeje
 keypad_init();
 
   while (1){
-		process_keypad(); // obsluhujeme klávesnici
+		process_keypad(); // obsluhujeme klÃ¡vesnici
 	}
 }
 
 
-// pravidelnì sleduje stav klávesnice a reaguje na stisknutí kláves
-// mechanismus jak reagovat na stisk klávesy jde napsat mnohem elegantnìji - prostor pro vás :)
+// pravidelnÃ¬ sleduje stav klÃ¡vesnice a reaguje na stisknutÃ­ klÃ¡ves
+// mechanismus jak reagovat na stisk klÃ¡vesy jde napsat mnohem elegantnÃ¬ji - prostor pro vÃ¡s :)
 void process_keypad(void){
-static uint8_t minule_stisknuto=0xFF;	// ukládáme poslední stav klávesnice (zde "volno")
+static uint8_t minule_stisknuto=0xFF;	// uklÃ¡dÃ¡me poslednÃ­ stav klÃ¡vesnice (zde "volno")
 static uint16_t last_time=0; 
 uint8_t stisknuto;
 
-	if(milis()-last_time > 20){ // kadıch 20ms ...
+	if(milis()-last_time > 20){ // kaÅ¾dÃ½ch 20ms ...
 		last_time = milis();
-		stisknuto=keypad_scan(); // ... skenujeme klávesnici
-		if(minule_stisknuto == 0xFF && stisknuto != 0xFF){ // pokud byla minule uvolnìná a teï je nìco stisknuto
+		stisknuto=keypad_scan(); // ... skenujeme klÃ¡vesnici
+		if(minule_stisknuto == 0 && stisknuto != 0){ // pokud byla minule uvolnÃ¬nÃ¡ a teÃ¯ je nÃ¬co stisknuto
 			minule_stisknuto = stisknuto;
-			// zachytili jsme stisk klávesy - mùeme na to zareagovat
-			// pro demonstraci ji vypíšu na displej
+			// zachytili jsme stisk klÃ¡vesy - mÃ¹Å¾eme na to zareagovat
+			// pro demonstraci ji vypÃ­Å¡u na displej
 			sprintf(text,"%2u",stisknuto);
 			lcd_gotoxy(0,0);
 			lcd_puts(text);
 		}
-		if(stisknuto == 0xFF){minule_stisknuto=0xFF;}
+		if(stisknuto == 0){minule_stisknuto=0;}
 	}
 }
 
 
 
-// pod tímto komentáøem nic nemìòte 
+// pod tÃ­mto komentÃ¡Ã¸em nic nemÃ¬Ã²te 
 #ifdef USE_FULL_ASSERT
 
 /**
