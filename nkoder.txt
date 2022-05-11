@@ -1,0 +1,21 @@
+void sleduj_enc(void){
+	static minule=1;	
+	if(GPIO_ReadInputPin(GPIOE,GPIO_PIN_2) == RESET && minule==1){
+		minule = 0; 
+		if(GPIO_ReadInputPin(GPIOE,GPIO_PIN_1) != RESET){
+				hodnota--;
+			}
+		else{
+				hodnota++;
+			}
+	}
+	else if (minule==0 && GPIO_ReadInputPin(GPIOE,GPIO_PIN_2) != RESET){
+		minule=1;
+		if(GPIO_ReadInputPin(GPIOE,GPIO_PIN_1) != RESET){
+				hodnota++;
+			}
+		else{
+				hodnota--;
+			}
+	}
+}

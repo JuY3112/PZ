@@ -1,0 +1,14 @@
+void sleduj_tlacitko(void){
+	static uint8_t stav_tlac=0;
+	static uint16_t last_time=0;
+	if(milis()-last_time>=50){
+		last_time = milis();
+		if(GPIO_ReadInputPin(GPIOE,GPIO_PIN_4)==RESET && stav_tlac==0 && stav==stoji) {
+			stav_tlac=1;
+			//co chceš aby se stalo po zmačknutí tlačítka
+		}
+		if(GPIO_ReadInputPin(GPIOE,GPIO_PIN_4)!= RESET && stav_tlac==1) {
+			stav_tlac=0;
+		}
+	}
+}

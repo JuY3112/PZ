@@ -1,0 +1,32 @@
+#include "swspi.h"
+
+void main(void){
+
+swspi_init();
+		swspi_tx16(0x0c<<8 | 0b00000001); 	//shut down
+		swspi_tx16(0x0b<<8 | 0b00000111);		//scan limit
+		swspi_tx16(0x09<<8 | 0b11111111);		//decode mode
+		swspi_tx16(0x0a<<8 | 0b00000011); 	//jas
+
+
+
+
+	while (1){
+	
+	}
+}
+
+
+void zapis_na_displej(void){
+	swspi_init();
+		swspi_tx16(0x01<<8 | 0);		//1 sedmisegment
+		swspi_tx16(0x02<<8 | promena);		//2 sedmisegment
+		swspi_tx16(0x03<<8 | 2);		//3 sedmisegment
+		swspi_tx16(0x04<<8 | 0);		//4 sedmisegment
+		swspi_tx16(0x05<<8 | 0);		//5 sedmisegment
+		swspi_tx16(0x06<<8 | 8);		//6 sedmisegment
+		swspi_tx16(0x07<<8 | 0);		//7 sedmisegment
+		swspi_tx16(0x08<<8 | 0);		//8 sedmisegment
+		swspi_tx16(0x03<<8 | 0b10000000);		//tečka
+		swspi_tx16(0x07<<8 | 0b10000000);		//tečka
+}
