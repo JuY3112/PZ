@@ -1,29 +1,29 @@
 #include "keypad.h"
 
-// nastavÌ GPIO do v˝chozÌ konfigurace
+// nastav√≠ GPIO do v√Ωchoz√≠ konfigurace
 void keypad_init(void){
-// Radky jako vstupy s aktivovan˝m pull-up rezistorem (30-50k)
+// Radky jako vstupy s aktivovan√Ωm pull-up rezistorem (30-50k)
 GPIO_Init(RDK1_GPIO,RDK1_PIN,GPIO_MODE_IN_PU_NO_IT);
 GPIO_Init(RDK2_GPIO,RDK2_PIN,GPIO_MODE_IN_PU_NO_IT);
 GPIO_Init(RDK3_GPIO,RDK3_PIN,GPIO_MODE_IN_PU_NO_IT);
 GPIO_Init(RDK4_GPIO,RDK4_PIN,GPIO_MODE_IN_PU_NO_IT);
-// Sloupce do reûimu v˝stupy typu Open drain s poË·teËnÌ hodnotou "H" (HiZ = "vstup")
+// Sloupce do re≈æimu v√Ωstupy typu Open drain s poƒç√°teƒçn√≠ hodnotou "H" (HiZ = "vstup")
 GPIO_Init(SLP1_GPIO, SLP1_PIN, GPIO_MODE_OUT_OD_HIZ_SLOW);
 GPIO_Init(SLP2_GPIO, SLP2_PIN, GPIO_MODE_OUT_OD_HIZ_SLOW);
 GPIO_Init(SLP3_GPIO, SLP3_PIN, GPIO_MODE_OUT_OD_HIZ_SLOW);
 GPIO_Init(SLP4_GPIO, SLP4_PIN, GPIO_MODE_OUT_OD_HIZ_SLOW);
 }
 
-// skenuje stav kl·vesnice a vracÌ hodnotu odpovÌdajÌcÌ stisknutÈ kl·vese nebo 0xFF pokud nic stisknuto nenÌ
+// skenuje stav kl√°vesnice a vrac√≠ hodnotu odpov√≠daj√≠c√≠ stisknut√© kl√°vese nebo 0xFF pokud nic stisknuto nen√≠
 uint8_t keypad_scan(void){
-uint8_t tmp=0xFF; // v˝chozÌ n·vratov· hodnota ("nic nestisknuto")
+uint8_t tmp=0; // v√Ωchoz√≠ n√°vratov√° hodnota ("nic nestisknuto")
 
-AKT_SLP1; // aktivuje prvnÌ sloupec
-if(STAV_RDK1){tmp=1;} // Ëte stav prvnÌho ¯·dku...
+AKT_SLP1; // aktivuje prvn√≠ sloupec
+if(STAV_RDK1){tmp=1;} // ƒçte stav prvn√≠ho ≈ô√°dku...
 if(STAV_RDK2){tmp=4;}
 if(STAV_RDK3){tmp=7;}
 if(STAV_RDK4){tmp=10;}
-DEAKT_SLP1; // deaktivuje prvnÌ sloupec
+DEAKT_SLP1; // deaktivuje prvn√≠ sloupec
 
 AKT_SLP2;
 if(STAV_RDK1){tmp=2;}
@@ -46,5 +46,5 @@ if(STAV_RDK3){tmp=14;}
 if(STAV_RDK4){tmp=15;}
 DEAKT_SLP4;
 
-return tmp; // vracÌ stisknutou kl·vesu (resp. 0xFF pokud nic stisknuto nenÌ)
+return tmp; // vrac√≠ stisknutou kl√°vesu (resp. 0xFF pokud nic stisknuto nen√≠)
 }
